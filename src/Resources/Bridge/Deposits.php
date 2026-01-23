@@ -22,7 +22,9 @@ class Deposits extends Resource
      * Users can send assets to these addresses, which will be automatically bridged
      * to USDC.e on Polygon for trading on Polymarket.
      *
-     * @param array<string, mixed> $depositData Deposit request data (amount, destinationAddress, etc.)
+     * @param array<string, mixed> $depositData Deposit request data with the following structure:
+     *                                          - destination_address (string): Target Polygon address for USDC.e
+     *                                          - amount_usd (string): Deposit amount in USD
      *
      * @return array<string, mixed> Deposit addresses for each chain
      *                              {

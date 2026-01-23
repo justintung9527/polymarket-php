@@ -32,6 +32,11 @@ class Bridge
         $this->httpClient = $httpClient ?? new GuzzleHttpClient($this->config->bridgeBaseUrl, $this->config);
     }
 
+    /**
+     * Access deposit operations for generating cross-chain deposit addresses.
+     *
+     * @return Deposits
+     */
     public function deposits(): Deposits
     {
         return new Deposits($this->httpClient);
