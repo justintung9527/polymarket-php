@@ -59,10 +59,11 @@ $client = new Client('api-key');
 
 ## API Architecture
 
-Polymarket uses two separate API systems:
+Polymarket uses three separate API systems:
 
 - **Gamma API** (`https://gamma-api.polymarket.com`) - Read-only market data
 - **CLOB API** (`https://clob.polymarket.com`) - Trading operations and order management
+- **Bridge API** (`https://bridge-api.polymarket.com`) - Cross-chain deposits and funding
 
 The SDK provides separate client interfaces for each:
 
@@ -72,6 +73,9 @@ $client->gamma()->markets()->list();
 
 /* Trading & Orders */
 $client->clob()->orders()->create([...]);
+
+/* Cross-chain deposits */
+$client->bridge()->deposits()->generate([...]);
 ```
 
 ## API Reference
@@ -85,6 +89,7 @@ use Danielgnh\PolymarketPhp\Client;
 $client = new Client('your-api-key', [
     'gamma_base_url' => 'https://gamma-api.polymarket.com',
     'clob_base_url' => 'https://clob.polymarket.com',
+    'bridge_base_url' => 'https://bridge-api.polymarket.com',
     'timeout' => 30,
     'retries' => 3,
     'verify_ssl' => true,
@@ -99,6 +104,7 @@ The SDK supports the following configuration options:
 |--------|------|---------|-------------|
 | `gamma_base_url` | string | `https://gamma-api.polymarket.com` | Gamma API base URL |
 | `clob_base_url` | string | `https://clob.polymarket.com` | CLOB API base URL |
+| `bridge_base_url` | string | `https://bridge-api.polymarket.com` | Bridge API base URL |
 | `timeout` | int | `30` | Request timeout in seconds |
 | `retries` | int | `3` | Number of retry attempts for failed requests |
 | `verify_ssl` | bool | `true` | Whether to verify SSL certificates |
@@ -221,6 +227,129 @@ $result = $client->clob()->orders()->cancel('order-id');
 - `orderId` (string): The unique identifier of the order to cancel
 
 **Returns:** Cancellation result data
+
+### Bridge (Cross-Chain Deposits)
+
+The Bridge API enables you to fund your Polymarket account from multiple blockchains including Ethereum, Arbitrum, Base, Optimism, Solana, and Bitcoin. All deposits are automatically converted to USDC.e on Polygon.
+
+#### Get Supported Assets
+
+Retrieve information about supported chains, tokens, and minimum deposit amounts:
+
+```php
+$assets = $client->bridge()->deposits()->supportedAssets();
+
+// Example response structure
+foreach ($assets['chains'] as $chain) {
+    echo "Chain: {$chain['name']} (ID: {$chain['id']})\n";
+}
+
+foreach ($assets['tokens'] as $token) {
+    echo "Token: {$token['symbol']} - Min: \${$token['minimum_usd']}\n";
+}
+```
+
+**Returns:** Array containing:
+- `chains` (array): List of supported blockchain networks
+  - `id` (int): Chain ID
+  - `name` (string): Chain name (e.g., "Ethereum", "Arbitrum")
+  - `type` (string): Chain type (e.g., "evm", "solana", "bitcoin")
+- `tokens` (array): List of supported tokens per chain
+  - `symbol` (string): Token symbol (e.g., "USDC", "ETH")
+  - `name` (string): Token full name
+  - `minimum_usd` (string): Minimum deposit amount in USD
+- `minimums` (array): Global minimum deposit thresholds
+
+#### Generate Deposit Addresses
+
+Generate unique deposit addresses for cross-chain funding:
+
+```php
+$addresses = $client->bridge()->deposits()->generate([
+    'destination_address' => '0xYourPolygonWalletAddress',
+    'amount_usd' => '100'
+]);
+
+// Access deposit addresses for different chains
+echo "EVM Chains Address: {$addresses['evm']}\n";
+echo "Solana Address: {$addresses['solana']}\n";
+echo "Bitcoin Address: {$addresses['bitcoin']}\n";
+```
+
+**Parameters:**
+- `depositData` (array): Deposit request data
+  - `destination_address` (string, required): Your Polygon wallet address where USDC.e will be sent
+  - `amount_usd` (string, required): Deposit amount in USD
+
+**Returns:** Array of deposit addresses:
+- `evm` (string): Ethereum-compatible address for EVM chains (Ethereum, Arbitrum, Base, etc.)
+- `solana` (string): Solana blockchain address
+- `bitcoin` (string): Bitcoin blockchain address
+
+**Important Security Notes:**
+- Always verify your destination address is correct before sending funds
+- Each deposit address is unique and tied to your destination address
+- Minimum deposit amounts apply (typically $10 USD equivalent)
+- Test with small amounts first
+
+#### Supported Blockchains
+
+**EVM-Compatible Chains:**
+- Ethereum Mainnet
+- Arbitrum One
+- Base
+- Optimism
+- Polygon (direct deposits)
+- BNB Chain
+- Avalanche C-Chain
+
+**Other Chains:**
+- Solana
+- Bitcoin
+
+#### Deposit Workflow
+
+1. Call `supportedAssets()` to check supported tokens and minimum amounts
+2. Generate deposit addresses using `generate()` with your Polygon address
+3. Send assets to the provided address for your chosen blockchain
+4. Bridge service automatically detects and processes the deposit
+5. Assets are converted to USDC.e and sent to your Polygon address
+6. You can now trade on Polymarket
+
+**Processing Times:**
+- EVM chains: ~1-5 minutes
+- Solana: ~30 seconds
+- Bitcoin: ~30-60 minutes
+
+#### Complete Example
+
+```php
+use Danielgnh\PolymarketPhp\Client;
+
+$client = new Client();
+
+// 1. Check supported assets
+$assets = $client->bridge()->deposits()->supportedAssets();
+
+echo "Supported Chains:\n";
+foreach ($assets['chains'] as $chain) {
+    echo "  - {$chain['name']}\n";
+}
+
+// 2. Generate deposit addresses
+$addresses = $client->bridge()->deposits()->generate([
+    'destination_address' => '0xYourPolygonAddress',
+    'amount_usd' => '100'
+]);
+
+// 3. Display addresses to user
+echo "\nDeposit Addresses:\n";
+echo "Send USDC/ETH from Ethereum/Arbitrum to: {$addresses['evm']}\n";
+echo "Send USDC/SOL from Solana to: {$addresses['solana']}\n";
+echo "Send BTC from Bitcoin to: {$addresses['bitcoin']}\n";
+```
+
+For a complete working example, see `examples/bridge-deposit.php`.
 
 ## Error Handling
 
