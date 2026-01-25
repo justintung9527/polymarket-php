@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Danielgnh\PolymarketPhp;
 
 use Danielgnh\PolymarketPhp\Exceptions\PolymarketException;
+use Danielgnh\PolymarketPhp\Http\AsyncClientInterface;
 use Danielgnh\PolymarketPhp\Http\GuzzleHttpClient;
 use Danielgnh\PolymarketPhp\Http\HttpClientInterface;
 use Danielgnh\PolymarketPhp\Resources\Gamma\Comments;
@@ -37,44 +38,45 @@ class Gamma
 
     public function __construct(
         private readonly Config $config,
-        ?HttpClientInterface $httpClient = null
+        ?HttpClientInterface $httpClient = null,
+        private readonly ?AsyncClientInterface $asyncClient = null,
     ) {
         $this->httpClient = $httpClient ?? new GuzzleHttpClient($this->config->gammaBaseUrl, $this->config);
     }
 
     public function health(): Health
     {
-        return new Health($this->httpClient);
+        return new Health($this->httpClient, $this->asyncClient);
     }
 
     public function sports(): Sports
     {
-        return new Sports($this->httpClient);
+        return new Sports($this->httpClient, $this->asyncClient);
     }
 
     public function tags(): Tags
     {
-        return new Tags($this->httpClient);
+        return new Tags($this->httpClient, $this->asyncClient);
     }
 
     public function events(): Events
     {
-        return new Events($this->httpClient);
+        return new Events($this->httpClient, $this->asyncClient);
     }
 
     public function markets(): Markets
     {
-        return new Markets($this->httpClient);
+        return new Markets($this->httpClient, $this->asyncClient);
     }
 
     public function series(): Series
     {
-        return new Series($this->httpClient);
+        return new Series($this->httpClient, $this->asyncClient);
     }
 
     public function comments(): Comments
     {
-        return new Comments($this->httpClient);
+        return new Comments($this->httpClient, $this->asyncClient);
     }
 
     /**
@@ -94,5 +96,10 @@ class Gamma
         ]);
 
         return $response->json();
+    }
+
+    public function asyncClient(): ?AsyncClientInterface
+    {
+        return $this->asyncClient;
     }
 }

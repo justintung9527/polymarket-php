@@ -8,6 +8,9 @@ use Danielgnh\PolymarketPhp\Auth\ClobAuthenticator;
 use Danielgnh\PolymarketPhp\Auth\Signer\Eip712Signer;
 use Danielgnh\PolymarketPhp\Exceptions\ClobAuthenticationException;
 use Danielgnh\PolymarketPhp\Exceptions\SigningException;
+use Danielgnh\PolymarketPhp\Http\AsyncClient;
+use Danielgnh\PolymarketPhp\Http\FakeGuzzleHttpClient;
+use Danielgnh\PolymarketPhp\Http\GuzzleHttpClient;
 use Danielgnh\PolymarketPhp\Http\HttpClientInterface;
 
 class Client
@@ -35,11 +38,13 @@ class Client
         $this->config = new Config($apiKey, $options);
 
         if ($gammaHttpClient instanceof HttpClientInterface) {
-            $this->gammaClient = new Gamma($this->config, $gammaHttpClient);
+            $asyncClient = $gammaHttpClient instanceof FakeGuzzleHttpClient ? $gammaHttpClient : null;
+            $this->gammaClient = new Gamma($this->config, $gammaHttpClient, $asyncClient);
         }
 
         if ($clobHttpClient instanceof HttpClientInterface) {
-            $this->clobClient = new Clob($this->config, $clobHttpClient);
+            $asyncClient = $clobHttpClient instanceof FakeGuzzleHttpClient ? $clobHttpClient : null;
+            $this->clobClient = new Clob($this->config, $clobHttpClient, null, $asyncClient);
         }
 
         if ($bridgeHttpClient instanceof HttpClientInterface) {
@@ -85,7 +90,9 @@ class Client
     public function gamma(): Gamma
     {
         if (!$this->gammaClient instanceof Gamma) {
-            $this->gammaClient = new Gamma($this->config);
+            $httpClient = new GuzzleHttpClient($this->config->gammaBaseUrl, $this->config);
+            $asyncClient = new AsyncClient($httpClient->getGuzzleClient(), $this->config);
+            $this->gammaClient = new Gamma($this->config, $httpClient, $asyncClient);
         }
 
         return $this->gammaClient;
@@ -94,10 +101,17 @@ class Client
     public function clob(): Clob
     {
         if (!$this->clobClient instanceof Clob) {
+            $httpClient = new GuzzleHttpClient(
+                $this->config->clobBaseUrl,
+                $this->config,
+                $this->clobAuthenticator
+            );
+            $asyncClient = new AsyncClient($httpClient->getGuzzleClient(), $this->config);
             $this->clobClient = new Clob(
                 $this->config,
-                null,
-                $this->clobAuthenticator
+                $httpClient,
+                $this->clobAuthenticator,
+                $asyncClient
             );
         }
 

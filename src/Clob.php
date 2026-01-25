@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Danielgnh\PolymarketPhp;
 
 use Danielgnh\PolymarketPhp\Auth\ClobAuthenticator;
+use Danielgnh\PolymarketPhp\Http\AsyncClientInterface;
 use Danielgnh\PolymarketPhp\Http\GuzzleHttpClient;
 use Danielgnh\PolymarketPhp\Http\HttpClientInterface;
 use Danielgnh\PolymarketPhp\Resources\Clob\Account;
@@ -49,7 +50,8 @@ class Clob
     public function __construct(
         private readonly Config $config,
         ?HttpClientInterface $httpClient = null,
-        private ?ClobAuthenticator $authenticator = null
+        private ?ClobAuthenticator $authenticator = null,
+        private readonly ?AsyncClientInterface $asyncClient = null,
     ) {
         $this->httpClient = $httpClient ?? new GuzzleHttpClient(
             $this->config->clobBaseUrl,
@@ -69,56 +71,56 @@ class Clob
 
     public function book(): Book
     {
-        return new Book($this->httpClient);
+        return new Book($this->httpClient, $this->asyncClient);
     }
 
     public function orders(): Orders
     {
-        return new Orders($this->httpClient);
+        return new Orders($this->httpClient, $this->asyncClient);
     }
 
     public function pricing(): Pricing
     {
-        return new Pricing($this->httpClient);
+        return new Pricing($this->httpClient, $this->asyncClient);
     }
 
     public function spreads(): Spreads
     {
-        return new Spreads($this->httpClient);
+        return new Spreads($this->httpClient, $this->asyncClient);
     }
 
     public function trades(): Trades
     {
-        return new Trades($this->httpClient);
+        return new Trades($this->httpClient, $this->asyncClient);
     }
 
     public function markets(): Markets
     {
-        return new Markets($this->httpClient);
+        return new Markets($this->httpClient, $this->asyncClient);
     }
 
     public function authentication(): Authentication
     {
-        return new Authentication($this->httpClient);
+        return new Authentication($this->httpClient, $this->asyncClient);
     }
 
     public function account(): Account
     {
-        return new Account($this->httpClient);
+        return new Account($this->httpClient, $this->asyncClient);
     }
 
     public function rewards(): Rewards
     {
-        return new Rewards($this->httpClient);
+        return new Rewards($this->httpClient, $this->asyncClient);
     }
 
     public function orderScoring(): OrderScoring
     {
-        return new OrderScoring($this->httpClient);
+        return new OrderScoring($this->httpClient, $this->asyncClient);
     }
 
     public function server(): Server
     {
-        return new Server($this->httpClient);
+        return new Server($this->httpClient, $this->asyncClient);
     }
 }
