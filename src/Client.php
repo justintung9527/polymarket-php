@@ -12,7 +12,7 @@ use Danielgnh\PolymarketPhp\Http\HttpClientInterface;
 
 class Client
 {
-    private Config $config;
+    private readonly Config $config;
 
     private ?Gamma $gammaClient = null;
 

@@ -110,7 +110,7 @@ class ClobAuthenticator
      */
     public function generateL1Headers(int $nonce = 0, ?int $timestamp = null): array
     {
-        $timestamp = $timestamp ?? time();
+        $timestamp ??= time();
         $signature = $this->signer->signClobAuth($timestamp, $nonce);
 
         return [
@@ -138,7 +138,7 @@ class ClobAuthenticator
             throw ClobAuthenticationException::notSetup();
         }
 
-        $timestamp = $timestamp ?? time();
+        $timestamp ??= time();
 
         $signature = HmacSigner::sign(
             (string) $timestamp,

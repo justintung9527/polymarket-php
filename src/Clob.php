@@ -44,9 +44,7 @@ use Danielgnh\PolymarketPhp\Resources\Clob\Trades;
  */
 class Clob
 {
-    private HttpClientInterface $httpClient;
-
-    private ?ClobAuthenticator $authenticator;
+    private readonly HttpClientInterface $httpClient;
 
     /**
      * @param Config                   $config
@@ -56,9 +54,8 @@ class Clob
     public function __construct(
         private readonly Config $config,
         ?HttpClientInterface $httpClient = null,
-        ?ClobAuthenticator $authenticator = null
+        private ?ClobAuthenticator $authenticator = null
     ) {
-        $this->authenticator = $authenticator;
         $this->httpClient = $httpClient ?? new GuzzleHttpClient(
             $this->config->clobBaseUrl,
             $this->config,

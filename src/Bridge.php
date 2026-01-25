@@ -19,7 +19,7 @@ use Danielgnh\PolymarketPhp\Resources\Bridge\Deposits;
  */
 class Bridge
 {
-    private HttpClientInterface $httpClient;
+    private readonly HttpClientInterface $httpClient;
 
     /**
      * @param Config                   $config
