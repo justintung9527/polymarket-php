@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace Danielgnh\PolymarketPhp\Resources\Clob;
 
 use Danielgnh\PolymarketPhp\Exceptions\PolymarketException;
+use Danielgnh\PolymarketPhp\Http\AsyncClient;
+use Danielgnh\PolymarketPhp\Http\BatchResult;
+use Danielgnh\PolymarketPhp\Http\FakeGuzzleHttpClient;
+use Danielgnh\PolymarketPhp\Http\Response;
 use Danielgnh\PolymarketPhp\Resources\Resource;
+use GuzzleHttp\Promise\PromiseInterface;
+use RuntimeException;
 
 class Markets extends Resource
 {
@@ -75,5 +81,46 @@ class Markets extends Resource
     public function getTradeEvents(string $conditionId): array
     {
         return $this->httpClient->get("/market-trades-events/{$conditionId}")->json();
+    }
+
+    /**
+     * @param array<string, mixed> $params
+     */
+    public function listAsync(array $params = []): PromiseInterface
+    {
+        return $this->getAsyncClient()->getAsync('/markets', $params)
+            ->then(fn (Response $response): array => $response->json());
+    }
+
+    public function getAsync(string $conditionId): PromiseInterface
+    {
+        return $this->getAsyncClient()->getAsync("/market/{$conditionId}")
+            ->then(fn (Response $response): array => $response->json());
+    }
+
+    /**
+     * @param array<string> $conditionIds
+     */
+    public function getMany(array $conditionIds, int $concurrency = 10): BatchResult
+    {
+        $promises = [];
+        foreach ($conditionIds as $id) {
+            $promises[$id] = $this->getAsync($id);
+        }
+
+        return $this->getAsyncClient()->pool($promises, $concurrency);
+    }
+
+    private function getAsyncClient(): AsyncClient|FakeGuzzleHttpClient
+    {
+        if ($this->asyncClient instanceof AsyncClient) {
+            return $this->asyncClient;
+        }
+
+        if ($this->httpClient instanceof FakeGuzzleHttpClient) {
+            return $this->httpClient;
+        }
+
+        throw new RuntimeException('AsyncClient not configured. Use the standard Client constructor.');
     }
 }
