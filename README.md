@@ -12,7 +12,7 @@ You can search for the markets, events, create / delete orders and much more.
 [![Total Downloads](https://img.shields.io/packagist/dt/polymarket-php/polymarket.svg?style=flat-square)](https://packagist.org/packages/polymarket-php/polymarket)
 [![License](https://img.shields.io/packagist/l/polymarket-php/polymarket.svg?style=flat-square)](https://packagist.org/packages/polymarket-php/polymarket)
 [![Tests](https://img.shields.io/github/actions/workflow/status/polymarket-php/polymarket/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/polymarket-php/polymarket/actions)
-[![PHPStan](https://img.shields.io/badge/PHPStan-level%209-brightgreen.svg?style=flat-square)](https://phpstan.org/)
+[![PHPStan](https://img.shields.io/badge/PHPStan-level%2010-brightgreen.svg?style=flat-square)](https://phpstan.org/)
 
 ## Requirements
 
