@@ -14,9 +14,9 @@ return RectorConfig::configure()
         __DIR__ . '/tests',
     ])
     ->withPhpSets(php81: true)
-    ->withTypeCoverageLevel(30)
-    ->withDeadCodeLevel(30)
-    ->withCodeQualityLevel(30)
+    ->withTypeCoverageLevel(37)
+    ->withDeadCodeLevel(50)
+    ->withCodeQualityLevel(71)
     ->withImportNames(
         importShortClasses: false,
         removeUnusedImports: true,
