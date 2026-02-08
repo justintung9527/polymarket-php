@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Danielgnh\PolymarketPhp\Client;
-use Danielgnh\PolymarketPhp\Exceptions\PolymarketException;
+use PolymarketPhp\Polymarket\Client;
+use PolymarketPhp\Polymarket\Exceptions\PolymarketException;
+use GuzzleHttp\Promise\Utils;
 
 $client = new Client();
 
