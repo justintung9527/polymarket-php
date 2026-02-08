@@ -2,6 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Exceptions;
+namespace PolymarketPhp\Polymarket\Exceptions;
 
 class ValidationException extends PolymarketException {}

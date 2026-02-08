@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use Danielgnh\PolymarketPhp\Exceptions\NotFoundException;
-use Danielgnh\PolymarketPhp\Http\BatchResult;
-use Danielgnh\PolymarketPhp\Http\RequestPool;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\RejectedPromise;
+use PolymarketPhp\Polymarket\Exceptions\NotFoundException;
+use PolymarketPhp\Polymarket\Http\BatchResult;
+use PolymarketPhp\Polymarket\Http\RequestPool;
 
 describe('RequestPool::batch', function (): void {
     it('resolves all successful promises', function (): void {

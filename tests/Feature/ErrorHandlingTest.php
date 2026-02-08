@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Danielgnh\PolymarketPhp\Client;
-use Danielgnh\PolymarketPhp\Exceptions\JsonParseException;
-use Danielgnh\PolymarketPhp\Http\FakeGuzzleHttpClient;
-use Danielgnh\PolymarketPhp\Http\Response;
+use PolymarketPhp\Polymarket\Client;
+use PolymarketPhp\Polymarket\Exceptions\JsonParseException;
+use PolymarketPhp\Polymarket\Http\FakeGuzzleHttpClient;
+use PolymarketPhp\Polymarket\Http\Response;
 
 beforeEach(function (): void {
     $this->fakeHttp = new FakeGuzzleHttpClient();

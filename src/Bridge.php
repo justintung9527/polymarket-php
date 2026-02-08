@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp;
+namespace PolymarketPhp\Polymarket;
 
-use Danielgnh\PolymarketPhp\Http\GuzzleHttpClient;
-use Danielgnh\PolymarketPhp\Http\HttpClientInterface;
-use Danielgnh\PolymarketPhp\Resources\Bridge\Deposits;
+use PolymarketPhp\Polymarket\Http\GuzzleHttpClient;
+use PolymarketPhp\Polymarket\Http\HttpClientInterface;
+use PolymarketPhp\Polymarket\Resources\Bridge\Deposits;
 
 /**
  * Bridge API Client.

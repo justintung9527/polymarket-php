@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Http;
+namespace PolymarketPhp\Polymarket\Http;
 
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
-use Danielgnh\PolymarketPhp\Exceptions\PolymarketException;
 use IteratorAggregate;
 use LogicException;
+use PolymarketPhp\Polymarket\Exceptions\PolymarketException;
 use Traversable;
 
 /**

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Tests;
+namespace PolymarketPhp\Polymarket\Tests;
 
-use Danielgnh\PolymarketPhp\Client;
-use Danielgnh\PolymarketPhp\Http\FakeGuzzleHttpClient;
 use PHPUnit\Framework\TestCase as BaseTestCase;
+use PolymarketPhp\Polymarket\Client;
+use PolymarketPhp\Polymarket\Http\FakeGuzzleHttpClient;
 
 abstract class TestCase extends BaseTestCase
 {

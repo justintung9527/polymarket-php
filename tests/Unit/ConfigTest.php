@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Danielgnh\PolymarketPhp\Config;
+use PolymarketPhp\Polymarket\Config;
 
 it('creates config with default values', function (): void {
     $config = new Config();

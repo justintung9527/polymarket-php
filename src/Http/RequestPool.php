@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Http;
+namespace PolymarketPhp\Polymarket\Http;
 
-use Danielgnh\PolymarketPhp\Exceptions\PolymarketException;
 use Generator;
 use GuzzleHttp\Promise\EachPromise;
 use GuzzleHttp\Promise\PromiseInterface;
+use PolymarketPhp\Polymarket\Exceptions\PolymarketException;
 use Throwable;
 
 class RequestPool

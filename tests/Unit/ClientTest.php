@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use Danielgnh\PolymarketPhp\Bridge;
-use Danielgnh\PolymarketPhp\Client;
-use Danielgnh\PolymarketPhp\Clob;
-use Danielgnh\PolymarketPhp\Gamma;
-use Danielgnh\PolymarketPhp\Resources\Bridge\Deposits;
-use Danielgnh\PolymarketPhp\Resources\Clob\Orders;
-use Danielgnh\PolymarketPhp\Resources\Gamma\Markets;
+use PolymarketPhp\Polymarket\Bridge;
+use PolymarketPhp\Polymarket\Client;
+use PolymarketPhp\Polymarket\Clob;
+use PolymarketPhp\Polymarket\Gamma;
+use PolymarketPhp\Polymarket\Resources\Bridge\Deposits;
+use PolymarketPhp\Polymarket\Resources\Clob\Orders;
+use PolymarketPhp\Polymarket\Resources\Gamma\Markets;
 
 it('creates client with default configuration', function (): void {
     $client = new Client();

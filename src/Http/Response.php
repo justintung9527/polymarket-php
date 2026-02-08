@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Http;
+namespace PolymarketPhp\Polymarket\Http;
 
-use Danielgnh\PolymarketPhp\Exceptions\JsonParseException;
 use JsonException;
+use PolymarketPhp\Polymarket\Exceptions\JsonParseException;
 
 class Response
 {

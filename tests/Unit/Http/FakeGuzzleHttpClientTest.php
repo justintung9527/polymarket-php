@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Danielgnh\PolymarketPhp\Exceptions\NotFoundException;
-use Danielgnh\PolymarketPhp\Http\FakeGuzzleHttpClient;
-use Danielgnh\PolymarketPhp\Http\Response;
+use PolymarketPhp\Polymarket\Exceptions\NotFoundException;
+use PolymarketPhp\Polymarket\Http\FakeGuzzleHttpClient;
+use PolymarketPhp\Polymarket\Http\Response;
 
 describe('FakeGuzzleHttpClient sync methods', function (): void {
     it('get returns mocked response', function (): void {

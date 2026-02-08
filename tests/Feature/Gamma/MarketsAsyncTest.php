@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use Danielgnh\PolymarketPhp\Client;
-use Danielgnh\PolymarketPhp\Exceptions\AsyncClientNotConfiguredException;
-use Danielgnh\PolymarketPhp\Exceptions\NotFoundException;
-use Danielgnh\PolymarketPhp\Http\BatchResult;
-use Danielgnh\PolymarketPhp\Http\FakeAsyncClient;
-use Danielgnh\PolymarketPhp\Http\FakeGuzzleHttpClient;
 use GuzzleHttp\Promise\PromiseInterface;
+use PolymarketPhp\Polymarket\Client;
+use PolymarketPhp\Polymarket\Exceptions\AsyncClientNotConfiguredException;
+use PolymarketPhp\Polymarket\Exceptions\NotFoundException;
+use PolymarketPhp\Polymarket\Http\BatchResult;
+use PolymarketPhp\Polymarket\Http\FakeAsyncClient;
+use PolymarketPhp\Polymarket\Http\FakeGuzzleHttpClient;
 
 beforeEach(function (): void {
     $this->fakeHttp = new FakeGuzzleHttpClient();

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp;
+namespace PolymarketPhp\Polymarket;
 
 class Config
 {

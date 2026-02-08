@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Danielgnh\PolymarketPhp\Exceptions\NotFoundException;
-use Danielgnh\PolymarketPhp\Http\FakeAsyncClient;
-use Danielgnh\PolymarketPhp\Http\Response;
 use GuzzleHttp\Promise\PromiseInterface;
+use PolymarketPhp\Polymarket\Exceptions\NotFoundException;
+use PolymarketPhp\Polymarket\Http\FakeAsyncClient;
+use PolymarketPhp\Polymarket\Http\Response;
 
 describe('FakeAsyncClient async methods', function (): void {
     it('getAsync returns fulfilled promise', function (): void {

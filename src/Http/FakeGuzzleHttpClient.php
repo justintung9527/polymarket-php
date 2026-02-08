@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Http;
+namespace PolymarketPhp\Polymarket\Http;
 
-use Danielgnh\PolymarketPhp\Exceptions\PolymarketException;
+use PolymarketPhp\Polymarket\Exceptions\PolymarketException;
 
 /**
  * Fake HTTP client for testing purposes.

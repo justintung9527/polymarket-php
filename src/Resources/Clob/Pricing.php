@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Resources\Clob;
+namespace PolymarketPhp\Polymarket\Resources\Clob;
 
-use Danielgnh\PolymarketPhp\Exceptions\PolymarketException;
-use Danielgnh\PolymarketPhp\Resources\Resource;
+use PolymarketPhp\Polymarket\Exceptions\PolymarketException;
+use PolymarketPhp\Polymarket\Resources\Resource;
 
 class Pricing extends Resource
 {

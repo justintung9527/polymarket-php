@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Danielgnh\PolymarketPhp\Tests\TestCase;
+use PolymarketPhp\Polymarket\Tests\TestCase;
 
 /*
 |--------------------------------------------------------------------------

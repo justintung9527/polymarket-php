@@ -31,12 +31,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Danielgnh\\PolymarketPhp\\": "src/"
+            "PolymarketPhp\\Polymarket\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Danielgnh\\PolymarketPhp\\Tests\\": "tests/"
+            "PolymarketPhp\\Polymarket\\Tests\\": "tests/"
         }
     },
     "authors": [

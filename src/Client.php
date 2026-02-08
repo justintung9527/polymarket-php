@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp;
+namespace PolymarketPhp\Polymarket;
 
-use Danielgnh\PolymarketPhp\Auth\ClobAuthenticator;
-use Danielgnh\PolymarketPhp\Auth\Signer\Eip712Signer;
-use Danielgnh\PolymarketPhp\Exceptions\ClobAuthenticationException;
-use Danielgnh\PolymarketPhp\Exceptions\SigningException;
-use Danielgnh\PolymarketPhp\Http\AsyncClient;
-use Danielgnh\PolymarketPhp\Http\AsyncClientInterface;
-use Danielgnh\PolymarketPhp\Http\GuzzleHttpClient;
-use Danielgnh\PolymarketPhp\Http\HttpClientInterface;
+use PolymarketPhp\Polymarket\Auth\ClobAuthenticator;
+use PolymarketPhp\Polymarket\Auth\Signer\Eip712Signer;
+use PolymarketPhp\Polymarket\Exceptions\ClobAuthenticationException;
+use PolymarketPhp\Polymarket\Exceptions\SigningException;
+use PolymarketPhp\Polymarket\Http\AsyncClient;
+use PolymarketPhp\Polymarket\Http\AsyncClientInterface;
+use PolymarketPhp\Polymarket\Http\GuzzleHttpClient;
+use PolymarketPhp\Polymarket\Http\HttpClientInterface;
 
 class Client
 {

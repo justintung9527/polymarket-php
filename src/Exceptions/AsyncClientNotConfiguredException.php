@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Exceptions;
+namespace PolymarketPhp\Polymarket\Exceptions;
 
 /**
  * Thrown when an async operation is attempted without a configured async client.

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Http;
+namespace PolymarketPhp\Polymarket\Http;
 
-use Danielgnh\PolymarketPhp\Exceptions\PolymarketException;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Promise\RejectedPromise;
+use PolymarketPhp\Polymarket\Exceptions\PolymarketException;
 
 /**
  * Fake async client for testing purposes.

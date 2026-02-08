@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Resources\Gamma;
+namespace PolymarketPhp\Polymarket\Resources\Gamma;
 
-use Danielgnh\PolymarketPhp\Exceptions\PolymarketException;
-use Danielgnh\PolymarketPhp\Http\BatchResult;
-use Danielgnh\PolymarketPhp\Http\Response;
-use Danielgnh\PolymarketPhp\Resources\Resource;
-use Danielgnh\PolymarketPhp\Resources\Traits\HasAsyncClient;
 use GuzzleHttp\Promise\PromiseInterface;
+use PolymarketPhp\Polymarket\Exceptions\PolymarketException;
+use PolymarketPhp\Polymarket\Http\BatchResult;
+use PolymarketPhp\Polymarket\Http\Response;
+use PolymarketPhp\Polymarket\Resources\Resource;
+use PolymarketPhp\Polymarket\Resources\Traits\HasAsyncClient;
 
 class Markets extends Resource
 {

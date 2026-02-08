@@ -2,11 +2,6 @@
 
 declare(strict_types=1);
 
-use Danielgnh\PolymarketPhp\Config;
-use Danielgnh\PolymarketPhp\Exceptions\NotFoundException;
-use Danielgnh\PolymarketPhp\Http\AsyncClient;
-use Danielgnh\PolymarketPhp\Http\BatchResult;
-use Danielgnh\PolymarketPhp\Http\Response;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
@@ -14,6 +9,11 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
+use PolymarketPhp\Polymarket\Config;
+use PolymarketPhp\Polymarket\Exceptions\NotFoundException;
+use PolymarketPhp\Polymarket\Http\AsyncClient;
+use PolymarketPhp\Polymarket\Http\BatchResult;
+use PolymarketPhp\Polymarket\Http\Response;
 
 function createMockGuzzle(array $responses): GuzzleClient
 {

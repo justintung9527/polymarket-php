@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Resources;
+namespace PolymarketPhp\Polymarket\Resources;
 
-use Danielgnh\PolymarketPhp\Http\AsyncClientInterface;
-use Danielgnh\PolymarketPhp\Http\HttpClientInterface;
+use PolymarketPhp\Polymarket\Http\AsyncClientInterface;
+use PolymarketPhp\Polymarket\Http\HttpClientInterface;
 
 abstract class Resource
 {

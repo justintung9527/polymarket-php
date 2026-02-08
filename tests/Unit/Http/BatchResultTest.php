@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Danielgnh\PolymarketPhp\Exceptions\NotFoundException;
-use Danielgnh\PolymarketPhp\Http\BatchResult;
+use PolymarketPhp\Polymarket\Exceptions\NotFoundException;
+use PolymarketPhp\Polymarket\Http\BatchResult;
 
 describe('BatchResult', function (): void {
     it('stores succeeded and failed results', function (): void {

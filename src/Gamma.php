@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp;
+namespace PolymarketPhp\Polymarket;
 
-use Danielgnh\PolymarketPhp\Exceptions\PolymarketException;
-use Danielgnh\PolymarketPhp\Http\AsyncClientInterface;
-use Danielgnh\PolymarketPhp\Http\GuzzleHttpClient;
-use Danielgnh\PolymarketPhp\Http\HttpClientInterface;
-use Danielgnh\PolymarketPhp\Resources\Gamma\Comments;
-use Danielgnh\PolymarketPhp\Resources\Gamma\Events;
-use Danielgnh\PolymarketPhp\Resources\Gamma\Health;
-use Danielgnh\PolymarketPhp\Resources\Gamma\Markets;
-use Danielgnh\PolymarketPhp\Resources\Gamma\Series;
-use Danielgnh\PolymarketPhp\Resources\Gamma\Sports;
-use Danielgnh\PolymarketPhp\Resources\Gamma\Tags;
+use PolymarketPhp\Polymarket\Exceptions\PolymarketException;
+use PolymarketPhp\Polymarket\Http\AsyncClientInterface;
+use PolymarketPhp\Polymarket\Http\GuzzleHttpClient;
+use PolymarketPhp\Polymarket\Http\HttpClientInterface;
+use PolymarketPhp\Polymarket\Resources\Gamma\Comments;
+use PolymarketPhp\Polymarket\Resources\Gamma\Events;
+use PolymarketPhp\Polymarket\Resources\Gamma\Health;
+use PolymarketPhp\Polymarket\Resources\Gamma\Markets;
+use PolymarketPhp\Polymarket\Resources\Gamma\Series;
+use PolymarketPhp\Polymarket\Resources\Gamma\Sports;
+use PolymarketPhp\Polymarket\Resources\Gamma\Tags;
 
 /**
  * Gamma API Client.

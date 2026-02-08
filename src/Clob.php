@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp;
+namespace PolymarketPhp\Polymarket;
 
-use Danielgnh\PolymarketPhp\Auth\ClobAuthenticator;
-use Danielgnh\PolymarketPhp\Http\AsyncClientInterface;
-use Danielgnh\PolymarketPhp\Http\GuzzleHttpClient;
-use Danielgnh\PolymarketPhp\Http\HttpClientInterface;
-use Danielgnh\PolymarketPhp\Resources\Clob\Account;
-use Danielgnh\PolymarketPhp\Resources\Clob\Authentication;
-use Danielgnh\PolymarketPhp\Resources\Clob\Book;
-use Danielgnh\PolymarketPhp\Resources\Clob\Markets;
-use Danielgnh\PolymarketPhp\Resources\Clob\Orders;
-use Danielgnh\PolymarketPhp\Resources\Clob\OrderScoring;
-use Danielgnh\PolymarketPhp\Resources\Clob\Pricing;
-use Danielgnh\PolymarketPhp\Resources\Clob\Rewards;
-use Danielgnh\PolymarketPhp\Resources\Clob\Server;
-use Danielgnh\PolymarketPhp\Resources\Clob\Spreads;
-use Danielgnh\PolymarketPhp\Resources\Clob\Trades;
+use PolymarketPhp\Polymarket\Auth\ClobAuthenticator;
+use PolymarketPhp\Polymarket\Http\AsyncClientInterface;
+use PolymarketPhp\Polymarket\Http\GuzzleHttpClient;
+use PolymarketPhp\Polymarket\Http\HttpClientInterface;
+use PolymarketPhp\Polymarket\Resources\Clob\Account;
+use PolymarketPhp\Polymarket\Resources\Clob\Authentication;
+use PolymarketPhp\Polymarket\Resources\Clob\Book;
+use PolymarketPhp\Polymarket\Resources\Clob\Markets;
+use PolymarketPhp\Polymarket\Resources\Clob\Orders;
+use PolymarketPhp\Polymarket\Resources\Clob\OrderScoring;
+use PolymarketPhp\Polymarket\Resources\Clob\Pricing;
+use PolymarketPhp\Polymarket\Resources\Clob\Rewards;
+use PolymarketPhp\Polymarket\Resources\Clob\Server;
+use PolymarketPhp\Polymarket\Resources\Clob\Spreads;
+use PolymarketPhp\Polymarket\Resources\Clob\Trades;
 
 /**
  * CLOB API Client.

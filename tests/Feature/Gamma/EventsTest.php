@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Danielgnh\PolymarketPhp\Client;
-use Danielgnh\PolymarketPhp\Http\FakeGuzzleHttpClient;
+use PolymarketPhp\Polymarket\Client;
+use PolymarketPhp\Polymarket\Http\FakeGuzzleHttpClient;
 
 beforeEach(function (): void {
     $this->fakeHttp = new FakeGuzzleHttpClient();

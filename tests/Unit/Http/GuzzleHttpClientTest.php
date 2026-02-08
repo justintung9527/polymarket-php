@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Danielgnh\PolymarketPhp\Config;
-use Danielgnh\PolymarketPhp\Http\GuzzleHttpClient;
 use GuzzleHttp\Client as GuzzleClient;
+use PolymarketPhp\Polymarket\Config;
+use PolymarketPhp\Polymarket\Http\GuzzleHttpClient;
 
 describe('GuzzleHttpClient', function (): void {
     it('exposes internal Guzzle client', function (): void {

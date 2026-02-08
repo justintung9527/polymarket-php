@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Resources\Traits;
+namespace PolymarketPhp\Polymarket\Resources\Traits;
 
-use Danielgnh\PolymarketPhp\Exceptions\AsyncClientNotConfiguredException;
-use Danielgnh\PolymarketPhp\Http\AsyncClientInterface;
+use PolymarketPhp\Polymarket\Exceptions\AsyncClientNotConfiguredException;
+use PolymarketPhp\Polymarket\Http\AsyncClientInterface;
 
 trait HasAsyncClient
 {
