@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Auth;
+namespace PolymarketPhp\Polymarket\Auth;
 
 /**
  * Represents L2 API credentials returned from CLOB.

@@ -2,13 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Resources\Clob;
+namespace PolymarketPhp\Polymarket\Resources\Clob;
 
-use Danielgnh\PolymarketPhp\Exceptions\PolymarketException;
-use Danielgnh\PolymarketPhp\Resources\Resource;
+use GuzzleHttp\Promise\PromiseInterface;
+use PolymarketPhp\Polymarket\Exceptions\PolymarketException;
+use PolymarketPhp\Polymarket\Http\BatchResult;
+use PolymarketPhp\Polymarket\Http\Response;
+use PolymarketPhp\Polymarket\Resources\Resource;
+use PolymarketPhp\Polymarket\Resources\Traits\HasAsyncClient;
 
 class Markets extends Resource
 {
+    use HasAsyncClient;
+
     /**
      * @param array<string, mixed> $params
      *
@@ -75,5 +81,33 @@ class Markets extends Resource
     public function getTradeEvents(string $conditionId): array
     {
         return $this->httpClient->get("/market-trades-events/{$conditionId}")->json();
+    }
+
+    /**
+     * @param array<string, mixed> $params
+     */
+    public function listAsync(array $params = []): PromiseInterface
+    {
+        return $this->getAsyncClient()->getAsync('/markets', $params)
+            ->then(fn (Response $response): array => $response->json());
+    }
+
+    public function getAsync(string $conditionId): PromiseInterface
+    {
+        return $this->getAsyncClient()->getAsync("/market/{$conditionId}")
+            ->then(fn (Response $response): array => $response->json());
+    }
+
+    /**
+     * @param array<string> $conditionIds
+     */
+    public function getMany(array $conditionIds, int $concurrency = 10): BatchResult
+    {
+        $promises = [];
+        foreach ($conditionIds as $id) {
+            $promises[$id] = $this->getAsync($id);
+        }
+
+        return $this->getAsyncClient()->pool($promises, $concurrency);
     }
 }

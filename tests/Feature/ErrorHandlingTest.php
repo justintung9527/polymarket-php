@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Danielgnh\PolymarketPhp\Client;
-use Danielgnh\PolymarketPhp\Exceptions\JsonParseException;
-use Danielgnh\PolymarketPhp\Http\FakeGuzzleHttpClient;
-use Danielgnh\PolymarketPhp\Http\Response;
+use PolymarketPhp\Polymarket\Client;
+use PolymarketPhp\Polymarket\Exceptions\JsonParseException;
+use PolymarketPhp\Polymarket\Http\FakeGuzzleHttpClient;
+use PolymarketPhp\Polymarket\Http\Response;
 
 beforeEach(function (): void {
     $this->fakeHttp = new FakeGuzzleHttpClient();
@@ -33,7 +33,7 @@ describe('JSON parsing errors', function (): void {
             body: 'invalid json'
         );
 
-        $this->fakeHttp->addResponse('GET', '/orders', $invalidJsonResponse);
+        $this->fakeHttp->addResponse('GET', '/data/orders', $invalidJsonResponse);
 
         try {
             $this->client->clob()->orders()->list();
@@ -155,7 +155,7 @@ describe('Resource error scenarios', function (): void {
             body: json_encode(['error' => 'Order not found'])
         );
 
-        $this->fakeHttp->addResponse('GET', '/orders/nonexistent', $notFoundResponse);
+        $this->fakeHttp->addResponse('GET', '/data/order/nonexistent', $notFoundResponse);
 
         $result = $this->client->clob()->orders()->get('nonexistent');
 
@@ -258,7 +258,7 @@ describe('Decimal precision edge cases', function (): void {
             'filledSize' => '0.00',
         ];
 
-        $this->fakeHttp->addJsonResponse('GET', '/orders/test', $zeroData);
+        $this->fakeHttp->addJsonResponse('GET', '/data/order/test', $zeroData);
 
         $result = $this->client->clob()->orders()->get('test');
 

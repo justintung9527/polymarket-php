@@ -2,13 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Resources\Gamma;
+namespace PolymarketPhp\Polymarket\Resources\Gamma;
 
-use Danielgnh\PolymarketPhp\Exceptions\PolymarketException;
-use Danielgnh\PolymarketPhp\Resources\Resource;
+use GuzzleHttp\Promise\PromiseInterface;
+use PolymarketPhp\Polymarket\Exceptions\PolymarketException;
+use PolymarketPhp\Polymarket\Http\BatchResult;
+use PolymarketPhp\Polymarket\Http\Response;
+use PolymarketPhp\Polymarket\Resources\Resource;
+use PolymarketPhp\Polymarket\Resources\Traits\HasAsyncClient;
 
 class Markets extends Resource
 {
+    use HasAsyncClient;
+
     /**
      * @param array<string, mixed> $filters
      *
@@ -67,5 +73,55 @@ class Markets extends Resource
 
         /** @var array<int, array<string, mixed>> */
         return $response->json();
+    }
+
+    /**
+     * @param array<string, mixed> $filters
+     */
+    public function listAsync(array $filters = [], int $limit = 100, int $offset = 0): PromiseInterface
+    {
+        return $this->getAsyncClient()->getAsync('/markets', [
+            'limit' => $limit,
+            'offset' => $offset,
+            ...$filters,
+        ])->then(fn (Response $response): array => $response->json());
+    }
+
+    public function getAsync(string $marketId): PromiseInterface
+    {
+        return $this->getAsyncClient()->getAsync("/markets/$marketId")
+            ->then(fn (Response $response): array => $response->json());
+    }
+
+    public function getBySlugAsync(string $slug): PromiseInterface
+    {
+        return $this->getAsyncClient()->getAsync("/markets/slug/$slug")
+            ->then(fn (Response $response): array => $response->json());
+    }
+
+    /**
+     * @param array<string> $marketIds
+     */
+    public function getMany(array $marketIds, int $concurrency = 10): BatchResult
+    {
+        $promises = [];
+        foreach ($marketIds as $id) {
+            $promises[$id] = $this->getAsync($id);
+        }
+
+        return $this->getAsyncClient()->pool($promises, $concurrency);
+    }
+
+    /**
+     * @param array<string> $slugs
+     */
+    public function getManyBySlug(array $slugs, int $concurrency = 10): BatchResult
+    {
+        $promises = [];
+        foreach ($slugs as $slug) {
+            $promises[$slug] = $this->getBySlugAsync($slug);
+        }
+
+        return $this->getAsyncClient()->pool($promises, $concurrency);
     }
 }

@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Exceptions;
+namespace PolymarketPhp\Polymarket\Exceptions;
 
 use Exception;
+use Throwable;
 
 class PolymarketException extends Exception
 {
@@ -15,7 +16,7 @@ class PolymarketException extends Exception
         string $message,
         int $code = 0,
         private readonly ?array $response = null,
-        ?Exception $previous = null
+        ?Throwable $previous = null
     ) {
         parent::__construct($message, $code, $previous);
     }

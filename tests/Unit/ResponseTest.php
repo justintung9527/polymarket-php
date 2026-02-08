@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Danielgnh\PolymarketPhp\Exceptions\JsonParseException;
-use Danielgnh\PolymarketPhp\Http\Response;
+use PolymarketPhp\Polymarket\Exceptions\JsonParseException;
+use PolymarketPhp\Polymarket\Http\Response;
 
 it('creates a response with status code, headers and body', function (): void {
     $response = new Response(

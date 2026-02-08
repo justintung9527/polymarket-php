@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Auth\Signer;
+namespace PolymarketPhp\Polymarket\Auth\Signer;
 
-use Danielgnh\PolymarketPhp\Exceptions\ClobAuthenticationException;
-use Danielgnh\PolymarketPhp\Exceptions\SigningException;
 use Exception;
 use InvalidArgumentException;
 use kornrunner\Ethereum\Address;
 use kornrunner\Keccak;
 use kornrunner\Secp256k1;
 use kornrunner\Signature\Signature;
+use PolymarketPhp\Polymarket\Exceptions\ClobAuthenticationException;
+use PolymarketPhp\Polymarket\Exceptions\SigningException;
 use Throwable;
 
 /**

@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp;
+namespace PolymarketPhp\Polymarket;
 
-use Danielgnh\PolymarketPhp\Auth\ClobAuthenticator;
-use Danielgnh\PolymarketPhp\Auth\Signer\Eip712Signer;
-use Danielgnh\PolymarketPhp\Exceptions\ClobAuthenticationException;
-use Danielgnh\PolymarketPhp\Exceptions\SigningException;
-use Danielgnh\PolymarketPhp\Http\HttpClientInterface;
+use PolymarketPhp\Polymarket\Auth\ClobAuthenticator;
+use PolymarketPhp\Polymarket\Auth\Signer\Eip712Signer;
+use PolymarketPhp\Polymarket\Exceptions\ClobAuthenticationException;
+use PolymarketPhp\Polymarket\Exceptions\SigningException;
+use PolymarketPhp\Polymarket\Http\AsyncClient;
+use PolymarketPhp\Polymarket\Http\AsyncClientInterface;
+use PolymarketPhp\Polymarket\Http\GuzzleHttpClient;
+use PolymarketPhp\Polymarket\Http\HttpClientInterface;
 
 class Client
 {
@@ -30,16 +33,18 @@ class Client
         array $options = [],
         ?HttpClientInterface $gammaHttpClient = null,
         ?HttpClientInterface $clobHttpClient = null,
-        ?HttpClientInterface $bridgeHttpClient = null
+        ?HttpClientInterface $bridgeHttpClient = null,
+        ?AsyncClientInterface $gammaAsyncClient = null,
+        ?AsyncClientInterface $clobAsyncClient = null,
     ) {
         $this->config = new Config($apiKey, $options);
 
         if ($gammaHttpClient instanceof HttpClientInterface) {
-            $this->gammaClient = new Gamma($this->config, $gammaHttpClient);
+            $this->gammaClient = new Gamma($this->config, $gammaHttpClient, $gammaAsyncClient);
         }
 
         if ($clobHttpClient instanceof HttpClientInterface) {
-            $this->clobClient = new Clob($this->config, $clobHttpClient);
+            $this->clobClient = new Clob($this->config, $clobHttpClient, null, $clobAsyncClient);
         }
 
         if ($bridgeHttpClient instanceof HttpClientInterface) {
@@ -85,7 +90,9 @@ class Client
     public function gamma(): Gamma
     {
         if (!$this->gammaClient instanceof Gamma) {
-            $this->gammaClient = new Gamma($this->config);
+            $httpClient = new GuzzleHttpClient($this->config->gammaBaseUrl, $this->config);
+            $asyncClient = new AsyncClient($httpClient->getGuzzleClient(), $this->config);
+            $this->gammaClient = new Gamma($this->config, $httpClient, $asyncClient);
         }
 
         return $this->gammaClient;
@@ -94,10 +101,17 @@ class Client
     public function clob(): Clob
     {
         if (!$this->clobClient instanceof Clob) {
+            $httpClient = new GuzzleHttpClient(
+                $this->config->clobBaseUrl,
+                $this->config,
+                $this->clobAuthenticator
+            );
+            $asyncClient = new AsyncClient($httpClient->getGuzzleClient(), $this->config);
             $this->clobClient = new Clob(
                 $this->config,
-                null,
-                $this->clobAuthenticator
+                $httpClient,
+                $this->clobAuthenticator,
+                $asyncClient
             );
         }
 

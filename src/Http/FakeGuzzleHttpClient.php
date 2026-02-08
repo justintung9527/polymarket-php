@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Http;
+namespace PolymarketPhp\Polymarket\Http;
 
-use Danielgnh\PolymarketPhp\Exceptions\PolymarketException;
+use PolymarketPhp\Polymarket\Exceptions\PolymarketException;
 
 /**
  * Fake HTTP client for testing purposes.
@@ -17,6 +17,9 @@ class FakeGuzzleHttpClient implements HttpClientInterface
 
     /** @var array<string, array{method: string, path: string, data: array<int|string, mixed>}> */
     private array $requests = [];
+
+    /** @var array<string, PolymarketException> */
+    private array $exceptions = [];
 
     public function get(string $path, array $query = []): Response
     {
@@ -96,6 +99,12 @@ class FakeGuzzleHttpClient implements HttpClientInterface
         return isset($this->requests[$key]);
     }
 
+    public function addExceptionResponse(string $method, string $path, PolymarketException $exception): void
+    {
+        $key = $this->makeKey($method, $path);
+        $this->exceptions[$key] = $exception;
+    }
+
     /**
      * @param array<int|string, mixed> $data
      */
@@ -115,6 +124,10 @@ class FakeGuzzleHttpClient implements HttpClientInterface
     private function getResponse(string $method, string $path): Response
     {
         $key = $this->makeKey($method, $path);
+
+        if (isset($this->exceptions[$key])) {
+            throw $this->exceptions[$key];
+        }
 
         if (!isset($this->responses[$key])) {
             // Return a default 404 response if no mock is set

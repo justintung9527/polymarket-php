@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Resources\Bridge;
+namespace PolymarketPhp\Polymarket\Resources\Bridge;
 
-use Danielgnh\PolymarketPhp\Exceptions\PolymarketException;
-use Danielgnh\PolymarketPhp\Resources\Resource;
+use PolymarketPhp\Polymarket\Exceptions\PolymarketException;
+use PolymarketPhp\Polymarket\Resources\Resource;
 
 /**
  * Bridge Deposits Resource.

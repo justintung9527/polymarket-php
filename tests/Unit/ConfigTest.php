@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Danielgnh\PolymarketPhp\Config;
+use PolymarketPhp\Polymarket\Config;
 
 it('creates config with default values', function (): void {
     $config = new Config();
@@ -66,4 +66,23 @@ it('accepts multiple options at once', function (): void {
         ->and($config->timeout)->toBe(45)
         ->and($config->retries)->toBe(2)
         ->and($config->verifySSL)->toBeFalse();
+});
+
+describe('Config concurrency options', function (): void {
+    it('uses default concurrency values', function (): void {
+        $config = new Config();
+
+        expect($config->defaultConcurrency)->toBe(10);
+        expect($config->asyncTimeout)->toBe(30);
+    });
+
+    it('accepts custom concurrency values', function (): void {
+        $config = new Config(null, [
+            'default_concurrency' => 20,
+            'async_timeout' => 60,
+        ]);
+
+        expect($config->defaultConcurrency)->toBe(20);
+        expect($config->asyncTimeout)->toBe(60);
+    });
 });

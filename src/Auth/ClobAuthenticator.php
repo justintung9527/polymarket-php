@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Auth;
+namespace PolymarketPhp\Polymarket\Auth;
 
-use Danielgnh\PolymarketPhp\Auth\Signer\Eip712Signer;
-use Danielgnh\PolymarketPhp\Auth\Signer\HmacSigner;
-use Danielgnh\PolymarketPhp\Exceptions\ClobAuthenticationException;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
+use PolymarketPhp\Polymarket\Auth\Signer\Eip712Signer;
+use PolymarketPhp\Polymarket\Auth\Signer\HmacSigner;
+use PolymarketPhp\Polymarket\Exceptions\ClobAuthenticationException;
 
 /**
  * Manages CLOB authentication flow (L1 and L2).

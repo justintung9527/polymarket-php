@@ -2,11 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Resources;
+namespace PolymarketPhp\Polymarket\Resources;
 
-use Danielgnh\PolymarketPhp\Http\HttpClientInterface;
+use PolymarketPhp\Polymarket\Http\AsyncClientInterface;
+use PolymarketPhp\Polymarket\Http\HttpClientInterface;
 
 abstract class Resource
 {
-    public function __construct(protected readonly HttpClientInterface $httpClient) {}
+    public function __construct(
+        protected readonly HttpClientInterface $httpClient,
+        protected readonly ?AsyncClientInterface $asyncClient = null,
+    ) {}
 }

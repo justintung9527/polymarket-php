@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Enums;
+namespace PolymarketPhp\Polymarket\Enums;
 
 /**
  * Order type determines execution behavior.

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Exceptions;
+namespace PolymarketPhp\Polymarket\Exceptions;
 
 /**
  * Thrown when CLOB authentication fails.

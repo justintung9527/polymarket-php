@@ -2,18 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp;
+namespace PolymarketPhp\Polymarket;
 
-use Danielgnh\PolymarketPhp\Exceptions\PolymarketException;
-use Danielgnh\PolymarketPhp\Http\GuzzleHttpClient;
-use Danielgnh\PolymarketPhp\Http\HttpClientInterface;
-use Danielgnh\PolymarketPhp\Resources\Gamma\Comments;
-use Danielgnh\PolymarketPhp\Resources\Gamma\Events;
-use Danielgnh\PolymarketPhp\Resources\Gamma\Health;
-use Danielgnh\PolymarketPhp\Resources\Gamma\Markets;
-use Danielgnh\PolymarketPhp\Resources\Gamma\Series;
-use Danielgnh\PolymarketPhp\Resources\Gamma\Sports;
-use Danielgnh\PolymarketPhp\Resources\Gamma\Tags;
+use PolymarketPhp\Polymarket\Exceptions\PolymarketException;
+use PolymarketPhp\Polymarket\Http\AsyncClientInterface;
+use PolymarketPhp\Polymarket\Http\GuzzleHttpClient;
+use PolymarketPhp\Polymarket\Http\HttpClientInterface;
+use PolymarketPhp\Polymarket\Resources\Gamma\Comments;
+use PolymarketPhp\Polymarket\Resources\Gamma\Events;
+use PolymarketPhp\Polymarket\Resources\Gamma\Health;
+use PolymarketPhp\Polymarket\Resources\Gamma\Markets;
+use PolymarketPhp\Polymarket\Resources\Gamma\Series;
+use PolymarketPhp\Polymarket\Resources\Gamma\Sports;
+use PolymarketPhp\Polymarket\Resources\Gamma\Tags;
 
 /**
  * Gamma API Client.
@@ -37,44 +38,45 @@ class Gamma
 
     public function __construct(
         private readonly Config $config,
-        ?HttpClientInterface $httpClient = null
+        ?HttpClientInterface $httpClient = null,
+        private readonly ?AsyncClientInterface $asyncClient = null,
     ) {
         $this->httpClient = $httpClient ?? new GuzzleHttpClient($this->config->gammaBaseUrl, $this->config);
     }
 
     public function health(): Health
     {
-        return new Health($this->httpClient);
+        return new Health($this->httpClient, $this->asyncClient);
     }
 
     public function sports(): Sports
     {
-        return new Sports($this->httpClient);
+        return new Sports($this->httpClient, $this->asyncClient);
     }
 
     public function tags(): Tags
     {
-        return new Tags($this->httpClient);
+        return new Tags($this->httpClient, $this->asyncClient);
     }
 
     public function events(): Events
     {
-        return new Events($this->httpClient);
+        return new Events($this->httpClient, $this->asyncClient);
     }
 
     public function markets(): Markets
     {
-        return new Markets($this->httpClient);
+        return new Markets($this->httpClient, $this->asyncClient);
     }
 
     public function series(): Series
     {
-        return new Series($this->httpClient);
+        return new Series($this->httpClient, $this->asyncClient);
     }
 
     public function comments(): Comments
     {
-        return new Comments($this->httpClient);
+        return new Comments($this->httpClient, $this->asyncClient);
     }
 
     /**
@@ -94,5 +96,10 @@ class Gamma
         ]);
 
         return $response->json();
+    }
+
+    public function asyncClient(): ?AsyncClientInterface
+    {
+        return $this->asyncClient;
     }
 }

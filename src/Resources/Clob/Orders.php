@@ -2,13 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Resources\Clob;
+namespace PolymarketPhp\Polymarket\Resources\Clob;
 
-use Danielgnh\PolymarketPhp\Exceptions\PolymarketException;
-use Danielgnh\PolymarketPhp\Resources\Resource;
+use GuzzleHttp\Promise\PromiseInterface;
+use PolymarketPhp\Polymarket\Exceptions\PolymarketException;
+use PolymarketPhp\Polymarket\Http\BatchResult;
+use PolymarketPhp\Polymarket\Http\Response;
+use PolymarketPhp\Polymarket\Resources\Resource;
+use PolymarketPhp\Polymarket\Resources\Traits\HasAsyncClient;
 
 class Orders extends Resource
 {
+    use HasAsyncClient;
+
     /**
      * @param array<string, mixed> $filters
      *
@@ -23,7 +29,7 @@ class Orders extends Resource
             'offset' => $offset,
         ]);
 
-        return $this->httpClient->get('/orders', $params)->json();
+        return $this->httpClient->get('/data/orders', $params)->json();
     }
 
     /**
@@ -33,7 +39,7 @@ class Orders extends Resource
      */
     public function get(string $orderId): array
     {
-        return $this->httpClient->get("/orders/{$orderId}")->json();
+        return $this->httpClient->get("/data/order/{$orderId}")->json();
     }
 
     /**
@@ -132,5 +138,66 @@ class Orders extends Resource
     public function cancelMarketOrders(array $payload): array
     {
         return $this->httpClient->delete('/cancel-market-orders', $payload)->json();
+    }
+
+    /**
+     * @param array<string, mixed> $filters
+     */
+    public function listAsync(array $filters = [], int $limit = 100, int $offset = 0): PromiseInterface
+    {
+        $params = array_merge($filters, [
+            'limit' => $limit,
+            'offset' => $offset,
+        ]);
+
+        return $this->getAsyncClient()->getAsync('/data/orders', $params)
+            ->then(fn (Response $response): array => $response->json());
+    }
+
+    public function getAsync(string $orderId): PromiseInterface
+    {
+        return $this->getAsyncClient()->getAsync("/data/order/{$orderId}")
+            ->then(fn (Response $response): array => $response->json());
+    }
+
+    /**
+     * @param array<string, mixed> $params
+     */
+    public function getOpenAsync(array $params = []): PromiseInterface
+    {
+        return $this->getAsyncClient()->getAsync('/open-orders', $params)
+            ->then(fn (Response $response): array => $response->json());
+    }
+
+    /**
+     * @param array<string> $orderIds
+     */
+    public function getMany(array $orderIds, int $concurrency = 10): BatchResult
+    {
+        $promises = [];
+        foreach ($orderIds as $id) {
+            $promises[$id] = $this->getAsync($id);
+        }
+
+        return $this->getAsyncClient()->pool($promises, $concurrency);
+    }
+
+    /**
+     * @param array<string> $orderIds
+     */
+    public function cancelMany(array $orderIds, int $concurrency = 5): BatchResult
+    {
+        $promises = [];
+        foreach ($orderIds as $id) {
+            $promises[$id] = $this->cancelAsync($id);
+        }
+
+        return $this->getAsyncClient()->pool($promises, $concurrency);
+    }
+
+    private function cancelAsync(string $orderId): PromiseInterface
+    {
+        return $this->getAsyncClient()->deleteAsync("/orders/{$orderId}")
+            ->then(fn (Response $response): array => $response->json());
     }
 }

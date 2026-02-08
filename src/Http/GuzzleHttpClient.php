@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Http;
+namespace PolymarketPhp\Polymarket\Http;
 
-use Danielgnh\PolymarketPhp\Auth\ClobAuthenticator;
-use Danielgnh\PolymarketPhp\Config;
-use Danielgnh\PolymarketPhp\Exceptions\ApiException;
-use Danielgnh\PolymarketPhp\Exceptions\AuthenticationException;
-use Danielgnh\PolymarketPhp\Exceptions\ClobAuthenticationException;
-use Danielgnh\PolymarketPhp\Exceptions\NotFoundException;
-use Danielgnh\PolymarketPhp\Exceptions\PolymarketException;
-use Danielgnh\PolymarketPhp\Exceptions\RateLimitException;
-use Danielgnh\PolymarketPhp\Exceptions\ValidationException;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
+use PolymarketPhp\Polymarket\Auth\ClobAuthenticator;
+use PolymarketPhp\Polymarket\Config;
+use PolymarketPhp\Polymarket\Exceptions\ApiException;
+use PolymarketPhp\Polymarket\Exceptions\AuthenticationException;
+use PolymarketPhp\Polymarket\Exceptions\ClobAuthenticationException;
+use PolymarketPhp\Polymarket\Exceptions\NotFoundException;
+use PolymarketPhp\Polymarket\Exceptions\PolymarketException;
+use PolymarketPhp\Polymarket\Exceptions\RateLimitException;
+use PolymarketPhp\Polymarket\Exceptions\ValidationException;
 use Psr\Http\Message\ResponseInterface;
 
 class GuzzleHttpClient implements HttpClientInterface
@@ -39,6 +40,11 @@ class GuzzleHttpClient implements HttpClientInterface
     public function auth(ClobAuthenticator $authenticator): void
     {
         $this->authenticator = $authenticator;
+    }
+
+    public function getGuzzleClient(): GuzzleClient
+    {
+        return $this->client;
     }
 
     /**
@@ -187,7 +193,9 @@ class GuzzleHttpClient implements HttpClientInterface
      */
     private function handleException(GuzzleException $e): never
     {
-        $code = $e->getCode();
+        $code = $e instanceof RequestException
+            ? $e->getResponse()?->getStatusCode() ?? 0
+            : $e->getCode();
         $message = $e->getMessage();
 
         throw match (true) {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Auth\Signer;
+namespace PolymarketPhp\Polymarket\Auth\Signer;
 
-use Danielgnh\PolymarketPhp\Exceptions\SigningException;
+use PolymarketPhp\Polymarket\Exceptions\SigningException;
 use Throwable;
 
 /**

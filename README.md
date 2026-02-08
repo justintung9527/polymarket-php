@@ -2,17 +2,16 @@
 
 [Polymarket API](https://polymarket.com) PHP SDK for interacting with the prediction markets and managing orders.
 
-You can search for the markets, events, create / delete orders and much more.
+You can search for the markets, events, create / delete orders, send concurrent requests and much more.
 
 [What is polymarket?](https://docs.polymarket.com/polymarket-learn/get-started/what-is-polymarket)
-
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/polymarket-php/polymarket.svg?style=flat-square)](https://packagist.org/packages/polymarket-php/polymarket)
 [![PHP Version](https://img.shields.io/packagist/php-v/polymarket-php/polymarket.svg?style=flat-square)](https://packagist.org/packages/polymarket-php/polymarket)
 [![Total Downloads](https://img.shields.io/packagist/dt/polymarket-php/polymarket.svg?style=flat-square)](https://packagist.org/packages/polymarket-php/polymarket)
 [![License](https://img.shields.io/packagist/l/polymarket-php/polymarket.svg?style=flat-square)](https://packagist.org/packages/polymarket-php/polymarket)
 [![Tests](https://img.shields.io/github/actions/workflow/status/polymarket-php/polymarket/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/polymarket-php/polymarket/actions)
-[![PHPStan](https://img.shields.io/badge/PHPStan-level%209-brightgreen.svg?style=flat-square)](https://phpstan.org/)
+[![PHPStan](https://img.shields.io/badge/PHPStan-level%2010-brightgreen.svg?style=flat-square)](https://phpstan.org/)
 
 ## Requirements
 
@@ -43,7 +42,7 @@ Here is documentation [how to export you private key](https://docs.polymarket.co
 ```php
 <?php
 
-use Danielgnh\PolymarketPhp\Client;
+use PolymarketPhp\Polymarket\Client;
 
 /*
 * Let's initialize the client.
@@ -83,7 +82,7 @@ $client->bridge()->deposits()->generate([...]);
 ### Client Initialization
 
 ```php
-use Danielgnh\PolymarketPhp\Client;
+use PolymarketPhp\Polymarket\Client;
 
 /* There is a way to initialize the client with custom configuration */
 $client = new Client('your-api-key', [
@@ -100,14 +99,14 @@ $client = new Client('your-api-key', [
 
 The SDK supports the following configuration options:
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `gamma_base_url` | string | `https://gamma-api.polymarket.com` | Gamma API base URL |
-| `clob_base_url` | string | `https://clob.polymarket.com` | CLOB API base URL |
-| `bridge_base_url` | string | `https://bridge-api.polymarket.com` | Bridge API base URL |
-| `timeout` | int | `30` | Request timeout in seconds |
-| `retries` | int | `3` | Number of retry attempts for failed requests |
-| `verify_ssl` | bool | `true` | Whether to verify SSL certificates |
+| Option            | Type   | Default                             | Description                                  |
+|-------------------|--------|-------------------------------------|----------------------------------------------|
+| `gamma_base_url`  | string | `https://gamma-api.polymarket.com`  | Gamma API base URL                           |
+| `clob_base_url`   | string | `https://clob.polymarket.com`       | CLOB API base URL                            |
+| `bridge_base_url` | string | `https://bridge-api.polymarket.com` | Bridge API base URL                          |
+| `timeout`         | int    | `30`                                | Request timeout in seconds                   |
+| `retries`         | int    | `3`                                 | Number of retry attempts for failed requests |
+| `verify_ssl`      | bool   | `true`                              | Whether to verify SSL certificates           |
 
 ### Markets (Gamma API)
 
@@ -193,8 +192,8 @@ $order = $client->clob()->orders()->get('order-id');
 #### Create Order
 
 ```php
-use Danielgnh\PolymarketPhp\Enums\OrderSide;
-use Danielgnh\PolymarketPhp\Enums\OrderType;
+use PolymarketPhp\Polymarket\Enums\OrderSide;
+use PolymarketPhp\Polymarket\Enums\OrderType;
 
 $order = $client->clob()->orders()->create([
     'market_id' => 'market-id',
@@ -324,7 +323,7 @@ echo "Bitcoin Address: {$addresses['bitcoin']}\n";
 #### Complete Example
 
 ```php
-use Danielgnh\PolymarketPhp\Client;
+use PolymarketPhp\Polymarket\Client;
 
 $client = new Client();
 
@@ -356,7 +355,7 @@ For a complete working example, see `examples/bridge-deposit.php`.
 The SDK provides a comprehensive exception hierarchy for handling different error scenarios:
 
 ```php
-use Danielgnh\PolymarketPhp\Exceptions\{
+use PolymarketPhp\Polymarket\Exceptions\{
     PolymarketException,
     AuthenticationException,
     ValidationException,
@@ -403,7 +402,7 @@ The SDK provides type-safe enums for API fields with fixed value sets, ensuring 
 Specifies whether you're buying or selling shares:
 
 ```php
-use Danielgnh\PolymarketPhp\Enums\OrderSide;
+use PolymarketPhp\Polymarket\Enums\OrderSide;
 
 OrderSide::BUY   // Buy shares
 OrderSide::SELL  // Sell shares
@@ -414,7 +413,7 @@ OrderSide::SELL  // Sell shares
 Determines the execution behavior of an order:
 
 ```php
-use Danielgnh\PolymarketPhp\Enums\OrderType;
+use PolymarketPhp\Polymarket\Enums\OrderType;
 
 OrderType::FOK  // Fill-Or-Kill: Execute immediately in full or cancel
 OrderType::FAK  // Fill-And-Kill: Execute immediately for available shares, cancel remainder
@@ -427,7 +426,7 @@ OrderType::GTD  // Good-Til-Date: Active until specified date
 Indicates the current state of an order:
 
 ```php
-use Danielgnh\PolymarketPhp\Enums\OrderStatus;
+use PolymarketPhp\Polymarket\Enums\OrderStatus;
 
 OrderStatus::MATCHED    // Matched with existing order
 OrderStatus::LIVE       // Resting on the order book
@@ -440,7 +439,7 @@ OrderStatus::UNMATCHED  // Marketable but experiencing delay
 For order authentication methods:
 
 ```php
-use Danielgnh\PolymarketPhp\Enums\SignatureType;
+use PolymarketPhp\Polymarket\Enums\SignatureType;
 
 SignatureType::POLYMARKET_PROXY_EMAIL   // Email/Magic account (value: 1)
 SignatureType::POLYMARKET_PROXY_WALLET  // Browser wallet (value: 2)
@@ -450,7 +449,7 @@ SignatureType::EOA                      // Externally owned account (value: 0)
 ### Usage Example
 
 ```php
-use Danielgnh\PolymarketPhp\Enums\{OrderSide, OrderType};
+use PolymarketPhp\Polymarket\Enums\{OrderSide, OrderType};
 
 $order = $client->clob()->orders()->create([
     'market_id' => 'market-id',
@@ -476,6 +475,89 @@ $order = $client->clob()->orders()->create([
 $order = $client->clob()->orders()->create([
     'price' => 0.52,  // Float loses precision!
     'amount' => 10.00,
+]);
+```
+
+## Concurrent Requests
+
+For improved performance when fetching multiple resources, use the concurrent methods.
+
+### Batch Fetching
+
+Fetch multiple items in parallel with automatic concurrency control:
+
+```php
+use PolymarketPhp\Polymarket\Client;
+
+$client = new Client('your-api-key');
+
+// Fetch multiple markets by ID
+$marketIds = ['id-1', 'id-2', 'id-3', 'id-4', 'id-5'];
+$result = $client->gamma()->markets()->getMany($marketIds, concurrency: 10);
+
+// Iterate over successful results (BatchResult implements ArrayAccess)
+foreach ($result as $id => $market) {
+    echo $market['question'] . PHP_EOL;
+}
+
+// Handle any failures
+if ($result->hasFailures()) {
+    foreach ($result->failed as $id => $exception) {
+        error_log("Failed to fetch market {$id}: {$exception->getMessage()}");
+    }
+}
+```
+
+### Promise-Based API
+
+For custom workflows, use the async methods that return promises:
+
+```php
+use GuzzleHttp\Promise\Utils;
+
+$promise1 = $client->gamma()->markets()->getAsync('market-1');
+$promise2 = $client->gamma()->markets()->getAsync('market-2');
+$promise3 = $client->gamma()->markets()->listAsync(['active' => true]);
+
+// Wait for all promises
+$results = Utils::unwrap([
+    'market1' => $promise1,
+    'market2' => $promise2,
+    'list' => $promise3,
+]);
+
+echo $results['market1']['question'];
+```
+
+### Available Async Methods
+
+**Gamma Markets:**
+- `getAsync(string $marketId)` - Get single market
+- `getBySlugAsync(string $slug)` - Get market by slug
+- `listAsync(array $filters, int $limit, int $offset)` - List markets
+- `getMany(array $marketIds, int $concurrency)` - Batch fetch by ID
+- `getManyBySlug(array $slugs, int $concurrency)` - Batch fetch by slug
+
+**CLOB Markets:**
+- `getAsync(string $conditionId)` - Get single market
+- `listAsync(array $params)` - List markets
+- `getMany(array $conditionIds, int $concurrency)` - Batch fetch
+
+**CLOB Orders:**
+- `getAsync(string $orderId)` - Get single order
+- `listAsync(array $filters, int $limit, int $offset)` - List orders
+- `getOpenAsync(array $params)` - Get open orders
+- `getMany(array $orderIds, int $concurrency)` - Batch fetch
+- `cancelMany(array $orderIds, int $concurrency)` - Batch cancel
+
+### Configuration
+
+Configure default concurrency and timeout:
+
+```php
+$client = new Client('your-api-key', [
+    'default_concurrency' => 10,  // Max concurrent requests (default: 10)
+    'async_timeout' => 30,        // Timeout per request in seconds (default: 30)
 ]);
 ```
 

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Danielgnh\PolymarketPhp\Http;
+namespace PolymarketPhp\Polymarket\Http;
 
-use Danielgnh\PolymarketPhp\Exceptions\JsonParseException;
 use JsonException;
+use PolymarketPhp\Polymarket\Exceptions\JsonParseException;
 
 class Response
 {
@@ -30,7 +30,7 @@ class Response
             $decoded = json_decode($this->body, true, 512, JSON_THROW_ON_ERROR);
             if (!is_array($decoded)) {
                 throw new JsonParseException(
-                    message: 'JSON response is not an array',
+                    message: 'JSON response is not an array. Response body: ' . substr($this->body, 0, 200),
                     code: $this->statusCode
                 );
             }
